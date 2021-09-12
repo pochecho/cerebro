@@ -28,8 +28,10 @@ jobs:
       # Runs a single command using the runners shell
       - name: Build Lambdas
         run: |
+          cd app
           npm run build-lambdas
 
       - name: Upload Lambdas
         run: |
+          cd app
           npm run upload-lambdas
