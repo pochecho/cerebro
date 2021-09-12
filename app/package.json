@@ -11,7 +11,8 @@
     "build-stats-lambda": "tsc features/mutant/access/lambdas/stats-lambda.ts --project true",
     "build-lambdas-pipeline": "tsc  --project features/mutant/access/lambdas/tsconfig.json && cd ../scripts && python copy-assets-to-lambdas.py",
     "build-lambdas": "tsc  --project features/mutant/access/lambdas/tsconfig.json && cd ../scripts && py copy-assets-to-lambdas.py",
-    "upload-lambdas": "cd ../scripts && py copy-lambdas-to-s3.py"
+    "upload-lambdas": "cd ../scripts && py copy-lambdas-to-s3.py",
+    "upload-lambdas-pipeline": "cd ../scripts && python copy-lambdas-to-s3.py"
   },
   "repository": {
     "type": "git",
