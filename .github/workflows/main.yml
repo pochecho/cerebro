@@ -26,9 +26,17 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a single command using the runners shell
+      - name: Install Dependencies
+        run: |
+          cd app
+          npm i
+          cd ../scripts
+          pip install -r packages
       - name: Build Lambdas
         run: |
           cd app
+          npm i
+          
           npm run build-lambdas
 
       - name: Upload Lambdas
