@@ -96,10 +96,7 @@ Resources:
   #     Protocol: HTTP
   #     UnhealthyThresholdCount: 5
   #     VpcId: 'vpc-551df428'
-  S3BodyLambda:
-    Type: AWS::S3::Bucket
-    Properties: 
-      BucketName: 'lambda-bodies-s3'
+ 
   
   IAMRole:
     Type: 'AWS::IAM::Role'
@@ -165,7 +162,7 @@ Resources:
     Type: 'AWS::Lambda::Function'
     Properties:
       Code:
-        S3Bucket: !Ref "S3BodyLambda"
+        S3Bucket: "lambda-bodies-s3"
         S3Key: "lambdas/features/mutant/access/lambdas/is-mutant.lambda.js"        
       FunctionName: "is-mutant-lambda-function"
       Handler: is-mutant-lambda-function.handler
