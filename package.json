@@ -1,0 +1,51 @@
+{
+  "name": "cerebro",
+  "version": "1.0.0",
+  "description": "A project that lets you to discover mutants around the world.",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx jest",
+    "start": "nodemon index.ts",
+    "start-lambda": "nodemon index-lambda.ts",
+    "build-is-mutant-lambda": "tsc  --project features/mutant/access/lambdas/tsconfig.json ",
+    "build-stats-lambda": "tsc features/mutant/access/lambdas/stats-lambda.ts --project true",
+    "build-lambdas": "tsc  --project features/mutant/access/lambdas/tsconfig.json"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pochecho/cerebro.git"
+  },
+  "keywords": [
+    "node",
+    "typescript",
+    "cerebro",
+    "xmen",
+    "clean-architecture"
+  ],
+  "author": "Sergio Posada Urrea",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pochecho/cerebro/issues"
+  },
+  "homepage": "https://github.com/pochecho/cerebro#readme",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.31.0",
+    "@aws-sdk/types": "^3.29.0",
+    "@decorators/di": "^1.0.3",
+    "@decorators/express": "^2.6.0",
+    "aws-sdk": "^2.987.0",
+    "express": "^4.17.1",
+    "jest": "^27.1.1",
+    "reflect-metadata": "^0.1.13",
+    "rxjs": "^7.3.0",
+    "ts-node": "^10.2.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.13",
+    "@types/jest": "^27.0.1",
+    "@types/node": "^16.9.1",
+    "nodemon": "^2.0.12",
+    "ts-jest": "^27.0.5",
+    "typescript": "^4.4.3"
+  }
+}
