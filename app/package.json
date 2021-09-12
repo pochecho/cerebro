@@ -9,7 +9,7 @@
     "start-lambda": "nodemon index-lambda.ts",
     "build-is-mutant-lambda": "tsc  --project features/mutant/access/lambdas/tsconfig.json ",
     "build-stats-lambda": "tsc features/mutant/access/lambdas/stats-lambda.ts --project true",
-    "build-lambdas": "tsc  --project features/mutant/access/lambdas/tsconfig.json"
+    "build-lambdas": "tsc  --project features/mutant/access/lambdas/tsconfig.json && cd ../scripts && py copy-assets-to-lambdas.py"
   },
   "repository": {
     "type": "git",
