@@ -1,7 +1,6 @@
 import boto3
 from botocore.exceptions import NoCredentialsError
 import sys
-import os
 
 ACCESS_KEY, SECRET_KEY = sys.argv[1:]
 def upload_to_aws(local_file, bucket, s3_file):
