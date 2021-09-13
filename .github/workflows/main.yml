@@ -45,4 +45,4 @@ jobs:
       - name: Upload Lambdas
         run: |
           cd app
-          npm run upload-lambdas-pipeline
+          npm run upload-lambdas-pipeline ${{secrets.ACCESS_KEY}} ${{secrets.SECRET_KEY}}
