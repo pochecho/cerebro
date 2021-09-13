@@ -38,8 +38,6 @@ jobs:
       - name: Build Lambdas
         run: |
           cd app
-          npm i
-          
           npm run build-lambdas-pipeline
 
       - name: Upload Lambdas
