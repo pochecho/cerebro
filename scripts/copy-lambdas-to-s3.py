@@ -18,7 +18,25 @@ def upload_to_aws(local_file, bucket, s3_file):
         print("Credentials not available")
         return False
 
+
+def upload_folder(origin,destination):
+    try:
+        files = os.listdir(origin)
+        response = False
+        for file in files:
+            current_full_path = '{}/{}'.format(origin, file)
+            current_relative_full_path = '{}/{}'.format(origin, file).replace('../dist/','')
+            next_full_path = '{}{}/{}'.format(destination,origin.replace(origin,''), file)
+            if (os.path.isfile(current_full_path)):
+                response = response and upload_to_aws(current_full_path, 'lambda-bodies-s3', next_full_path)
+            else:
+                response = response and upload_folder(current_full_path, destination)
+        return response
+    except Exception as e:
+        print(e)
+
 print(os.getcwd())
-uploaded = upload_to_aws('../dist/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
+# uploaded = upload_to_aws('../dist/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
+uploaded = upload_folder('../dist/lambdas', '')
 if(not uploaded):
     exit(1)
