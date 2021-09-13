@@ -22,11 +22,13 @@ def upload_to_aws(local_file, bucket, s3_file):
 def upload_folder(origin,destination):
     try:
         files = os.listdir(origin)
-        response = False
+        print(files)
+        response = True
         for file in files:
+
             current_full_path = '{}/{}'.format(origin, file)
             current_relative_full_path = '{}/{}'.format(origin, file).replace('../dist/','')
-            next_full_path = '{}{}/{}'.format(destination,origin.replace(origin,''), file)
+            next_full_path = '{}{}/{}'.format(destination,origin.replace('../dist/',''), file)
             if (os.path.isfile(current_full_path)):
                 response = response and upload_to_aws(current_full_path, 'lambda-bodies-s3', next_full_path)
             else:
@@ -38,5 +40,6 @@ def upload_folder(origin,destination):
 print(os.getcwd())
 # uploaded = upload_to_aws('../dist/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
 uploaded = upload_folder('../dist/lambdas', '')
+print(uploaded)
 if(not uploaded):
     exit(1)
