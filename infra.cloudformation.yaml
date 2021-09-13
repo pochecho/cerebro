@@ -165,7 +165,7 @@ Resources:
         S3Bucket: "lambda-bodies-s3"
         S3Key: "lambdas/features/mutant/access/lambdas/is-mutant.lambda.js"        
       FunctionName: "is-mutant-lambda-function"
-      Handler: lambdas/features/mutant/access/lambdas/is-mutant-lambda.handler
+      Handler: is-mutant-lambda.handler
       Runtime: nodejs12.x
       Role: !GetAtt IAMRole.Arn
       CodeUri: s3://lambda-bodies-s3/lambdas.zip
