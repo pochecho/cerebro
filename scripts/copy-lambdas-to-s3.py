@@ -1,6 +1,7 @@
 import boto3
 from botocore.exceptions import NoCredentialsError
 import sys
+import os
 
 ACCESS_KEY, SECRET_KEY = sys.argv[1:]
 def upload_to_aws(local_file, bucket, s3_file):
@@ -17,6 +18,7 @@ def upload_to_aws(local_file, bucket, s3_file):
         print("Credentials not available")
         return False
 
-uploaded = upload_to_aws('../dis/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
+print(os.getcwd())
+uploaded = upload_to_aws('../dist/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
 if(not uploaded):
     exit(1)
