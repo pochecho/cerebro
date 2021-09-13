@@ -32,14 +32,15 @@ def upload_folder(origin,destination):
             if (os.path.isfile(current_full_path)):
                 response = response and upload_to_aws(current_full_path, 'lambda-bodies-s3', next_full_path)
             else:
+                print("Es folder", current_full_path)
                 response = response and upload_folder(current_full_path, destination)
         return response
     except Exception as e:
         print(e)
 
 print(os.getcwd())
-# uploaded = upload_to_aws('../dist/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
-uploaded = upload_folder('../dist/lambdas', '')
+uploaded = upload_to_aws('../dist/zip/lambdas.zip', 'lambda-bodies-s3', 'lambdas.zip')
+# uploaded = upload_folder('../dist/lambdas', '')
 print(uploaded)
 if(not uploaded):
     exit(1)

@@ -131,6 +131,7 @@ Resources:
                   - 's3:Get*'
                 Resource:
                   - arn:aws:s3:::lambda-bodies-s3
+                  - arn:aws:s3:::lambda-bodies-s3/*
               - Effect: Allow
                 Action:
                   - 'logs:CreateLogStream'
@@ -163,7 +164,7 @@ Resources:
     Properties:
       Code:
         S3Bucket: "lambda-bodies-s3"
-        S3Key: "lambdas.zip/lambdas/features/mutant/access/lambdas/is-mutant.lambda.js"        
+        S3Key: "lambdas.zip"        
       FunctionName: "is-mutant-lambda-function"
       Handler: is-mutant-lambda.handler
       Runtime: nodejs12.x

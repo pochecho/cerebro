@@ -40,6 +40,8 @@ def zip_lambdas():
     with ZipFile('{}/lambdas.zip'.format(ZIP_FOLDER), 'w') as z:
         copy_folder(DIST_FOLDER,'', z.write )
         add_node_modules(z,NODE_MODULES_FOLDER)   
+        
+        # copy_folder(NODE_MODULES_FOLDER,DIST_NODE_MODULES_FOLDER)
 def copy_folder(origin,destination, callback=None):
     try:
         files = os.listdir(origin)
