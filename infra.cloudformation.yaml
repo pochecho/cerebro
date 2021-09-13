@@ -130,7 +130,7 @@ Resources:
                   - 's3:Put*'
                   - 's3:Get*'
                 Resource:
-                  - !GetAtt S3BodyLambda.Arn
+                  - arn:aws:s3:::lambda-bodies-s3
               - Effect: Allow
                 Action:
                   - 'logs:CreateLogStream'
