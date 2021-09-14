@@ -4,10 +4,6 @@ import { IHumanModel } from "../../domain/models/human.model";
 
 import { MutantGateway } from "../contracts/mutant.gateway";
 import {
-  AttributeValue,
-  GetItemCommandInput,
-  QueryCommand,
-  QueryCommandInput,
   ScanCommand,
   ScanCommandInput,
   UpdateItemCommand,
@@ -46,7 +42,11 @@ export class MutantService extends MutantGateway {
     };
     const command = new UpdateItemCommand(params);
 
-    return from(this.ddbClient.send(command));
+    return from(this.ddbClient.send(command)).pipe(
+      map((resp) => {
+        return resp["$metadata"]["httpStatusCode"] === 200;
+      })
+    );
   }
   public getDNAResults(): Observable<IHumanModel[]> {
     const params: ScanCommandInput = {
@@ -55,24 +55,7 @@ export class MutantService extends MutantGateway {
 
     const command = new ScanCommand(params);
     const commandInstance = this.ddbClient.send(command);
-    // const observable = new Observable<IHumanModel[]>((observer) => {
-    //   commandInstance.then((items) => {
-    //     console.log(items);
-    //     if (items.Items) {
-    //       const r = items.Items.map((item) => {
-    //         return {
-    //           dna: item.chain.SS,
-    //           isMutant: item.mutant.BOOL,
-    //         } as IHumanModel;
-    //       });
-    //       observer.next(r);
-    //     } else {
-    //       observer.next([]);
-    //     }
-    //     observer.complete();
-    //   });
-    // });
-    // return observable;
+
     const response = from(commandInstance).pipe(
       map((items) => {
         if (items.Items) {
@@ -82,7 +65,6 @@ export class MutantService extends MutantGateway {
               isMutant: item.mutant.BOOL,
             } as IHumanModel;
           });
-          // console.log(r);
           return r;
         } else {
           return [];
@@ -90,9 +72,6 @@ export class MutantService extends MutantGateway {
       })
     );
 
-    // .then((data) => {
-    //   console.log(data.Items);
-    // });
     return response;
   }
 }

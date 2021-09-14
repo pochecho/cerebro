@@ -1,4 +1,4 @@
-import { createCipheriv, randomBytes, createDecipheriv } from "crypto";
+import { createCipheriv } from "crypto";
 
 const algorithm = "aes-256-ctr";
 const secretKey = "vOVH6sdmpNWjRRIqCc7rdxs01lwHzfr3";
@@ -15,17 +15,4 @@ export const encrypt = (text) => {
   };
 };
 
-export const decrypt = (hash) => {
-  const decipher = createDecipheriv(
-    algorithm,
-    secretKey,
-    Buffer.from(hash.iv, "hex")
-  );
 
-  const decrpyted = Buffer.concat([
-    decipher.update(Buffer.from(hash.content, "hex")),
-    decipher.final(),
-  ]);
-
-  return decrpyted.toString();
-};

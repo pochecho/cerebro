@@ -68,15 +68,23 @@ Resources:
   #   Type: 'AWS::Lambda::Function'
   #   Properties:
   #     Code:
-  #       S3Bucket: "lambda-bodies-s3"
-  #       S3Key: "lambdas.zip"        
+  #       ZipFile: |
+  #         exports.handler = function(event, context) {
+  #           console.log("REQUEST RECEIVED:\n" + JSON.stringify(event))
+  #           return {'statusCode':200,'body':'hola'};              
+  #         }
+  #     # Code:
+
+  #     #   S3Bucket: "lambda-bodies-s3"
+  #     #   S3Key: "lambdas.zip"        
   #     FunctionName: "is-mutant-lambda-function"
   #     Handler: is-mutant-lambda.handler
   #     Runtime: nodejs12.x
-  #     Role: !GetAtt IAMRole.Arn
+  #     # Role: !GetAtt IAMRole.Arn
+  #     Role: arn:aws:iam::786484964598:role/service-role/getModulesByEnterprise-role-55fbdt4f
   #   DependsOn:
   #     - DNAResultsTable
-  #     - IAMRole
+  #     # - IAMRole
 
   # MutantsApi:
   #   Type: AWS::ApiGatewayV2::Api

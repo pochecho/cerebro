@@ -1,0 +1,37 @@
+AWSTemplateFormatVersion: "2010-09-09"
+
+Description: This template provides a ELB, autoscaling, ec2 and dynamoDB
+
+Resources:
+  LambdaBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties: 
+      Bucket: 
+        Ref: LambdasBucketS3
+      PolicyDocument:
+        Type: AWS::IAM::Policy
+        Properties: 
+          PolicyDocument:
+            Version: "2021-07-29"
+            Statement:
+              - Effect: Allow
+                Action:
+                  - 's3:GetObject'
+                  - 's3:Put*'
+                Resource: !Join
+                  - ''
+                  - - 'arn:aws:s3:::'
+                    - !Ref LambdasBucketS3
+                    - /*
+          Roles: 
+            - String
+    DependsOn:
+      - LambdasBucketS3
+
+  LambdasBucketS3:
+    Type: 'AWS::S3::Bucket'
+    Properties:
+      BucketName: lambda-bodies-s3
+      
+
+      

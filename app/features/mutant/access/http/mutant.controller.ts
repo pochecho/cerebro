@@ -32,7 +32,7 @@ export class MutantsController {
         });
         $saveDNAResultUsecase.subscribe({
           next: (saveData) => {
-            if (saveData["$metadata"]["httpStatusCode"] === 200) {
+            if (saveData) {
               if (response.isMutant) {
                 res.json(response);
               } else {
