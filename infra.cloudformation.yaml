@@ -2,102 +2,7 @@ AWSTemplateFormatVersion: "2010-09-09"
 
 Description: This template provides a ELB, autoscaling, ec2 and dynamoDB
 
-# Metadata:
-#   AWS::CloudFormation::Interface:
-#     ParameterGroups:
-#       -
-#         Label:
-#           default: "Certificate ARN"
-#         Parameters:
-#           - AcmCertificate
-#       -
-#         Label:
-#           default: "Export VPC Stack name"
-#         Parameters:
-#           - ExportVpcStackName
-
-
-# Parameters:
-#   AcmCertificate:
-#     Description: The ARN of the AWS Certification Manager's Certificate
-#     Type: String
-  
-#   ExportVpcStackName:
-#     Description: The name of the vpc stack that exports values
-#     Type: String
-#     Default: vpc
-
-
-
-
 Resources:
-#Create an Application Load Balancer
-  # ApplicationLoadBalancer:
-  #   Type: AWS::ElasticLoadBalancingV2::LoadBalancer
-  #   Properties:
-  #     Name: MyElasticLoadBalancer
-  #     SecurityGroups:
-  #       - 'sg-6d6cb354'
-  #     Subnets: 
-  #       - 'subnet-741b7739'
-  #       - 'subnet-a034e9c6'
-
-#Create a Listener on Port 80
-  # ALBListenerNoSslCertificate:
-  #   Type: 'AWS::ElasticLoadBalancingV2::Listener'
-  #   Properties:
-  #     DefaultActions:
-  #       - RedirectConfig:
-  #           Host: '#{host}'
-  #           Path: '/#{path}'
-  #           Port: '443'
-  #           Protocol: HTTPS
-  #           StatusCode: HTTP_301
-  #         Type: redirect
-  #     LoadBalancerArn: !Ref ApplicationLoadBalancer
-  #     Port: 80
-  #     Protocol: HTTP
-
-  # ALBListenerNoSslCertificate:
-  #   Type: 'AWS::ElasticLoadBalancingV2::Listener'
-  #   Properties:
-  #     DefaultActions:
-  #         Type: forward
-  #         TargetGroupArn: !Ref ALBTargetGroup
-  #     LoadBalancerArn: !Ref ApplicationLoadBalancer
-  #     Port: 80
-  #     Protocol: HTTP
-
-#Create a Listener on Port 443
-  # ALBListenerSslCertificate:
-  #   Type : AWS::ElasticLoadBalancingV2::Listener
-  #   Properties:
-  #     Certificates:
-  #       - CertificateArn: !Ref AcmCertificate
-  #     DefaultActions:
-  #       - Type: forward
-  #         TargetGroupArn: !Ref ALBTargetGroup
-  #     LoadBalancerArn: !Ref ApplicationLoadBalancer
-  #     Port: 443
-  #     Protocol: HTTPS
-
-# Create a Target Group
-  # ALBTargetGroup:
-  #   Type: AWS::ElasticLoadBalancingV2::TargetGroup
-  #   Properties:
-  #     HealthCheckIntervalSeconds: 10
-  #     HealthCheckPath: /
-  #     HealthCheckTimeoutSeconds: 5
-  #     HealthyThresholdCount: 2
-  #     Matcher:
-  #       HttpCode: 200,403
-  #     Name: MyWebServer
-  #     Port: 80
-  #     Protocol: HTTP
-  #     UnhealthyThresholdCount: 5
-  #     VpcId: 'vpc-551df428'
- 
-  
   IAMRole:
     Type: 'AWS::IAM::Role'
     Properties:
@@ -159,20 +64,19 @@ Resources:
       - IAMRole
 
 
-  IsMutantLambdaFunction:
-    Type: 'AWS::Lambda::Function'
-    Properties:
-      Code:
-        S3Bucket: "lambda-bodies-s3"
-        S3Key: "lambdas.zip"        
-      FunctionName: "is-mutant-lambda-function"
-      Handler: is-mutant-lambda.handler
-      Runtime: nodejs12.x
-      Role: !GetAtt IAMRole.Arn
-      # CodeUri: s3://lambda-bodies-s3/lambdas.zip
-    DependsOn:
-      - DNAResultsTable
-      - IAMRole
+  # IsMutantLambdaFunction:
+  #   Type: 'AWS::Lambda::Function'
+  #   Properties:
+  #     Code:
+  #       S3Bucket: "lambda-bodies-s3"
+  #       S3Key: "lambdas.zip"        
+  #     FunctionName: "is-mutant-lambda-function"
+  #     Handler: is-mutant-lambda.handler
+  #     Runtime: nodejs12.x
+  #     Role: !GetAtt IAMRole.Arn
+  #   DependsOn:
+  #     - DNAResultsTable
+  #     - IAMRole
 
   # MutantsApi:
   #   Type: AWS::ApiGatewayV2::Api
@@ -201,24 +105,4 @@ Resources:
   #     Target: String
   #     Version: String
 
-# Outputs:
-  # Export Target Group
-  # ALBTargetGroup:
-  #   Description: Webserver target group
-  #   Export:
-  #     Name:  !Sub ${AWS::StackName}-ALBTargetGroup
-  #   Value: !Ref ALBTargetGroup
 
-# Export Application Load Balancer Dns Name
-  # ApplicationLoadBalancerDnsName:
-  #   Description: Application load balancer DNS name
-  #   Export:
-  #     Name: !Sub ${AWS::StackName}-ApplicationLoadBalancerDnsName
-  #   Value: !GetAtt ApplicationLoadBalancer.DNSName
-
-# Export Application Load Balancer Zone ID
-  # ApplicationLoadBalancerZoneID:
-  #   Description: Application Load Balancer Canonical Hosted Zone ID 
-  #   Export:
-  #     Name:  !Sub ${AWS::StackName}-ApplicationLoadBalancerZoneID
-  #   Value: !GetAtt ApplicationLoadBalancer.CanonicalHostedZoneID

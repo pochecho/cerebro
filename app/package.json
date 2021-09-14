@@ -34,9 +34,11 @@
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.31.0",
     "@aws-sdk/types": "^3.29.0",
+    "@aws-sdk/util-dynamodb": "^3.31.0",
     "@decorators/di": "^1.0.3",
     "@decorators/express": "^2.6.0",
     "aws-sdk": "^2.987.0",
+    "crypto": "^1.0.1",
     "express": "^4.17.1",
     "jest": "^27.1.1",
     "reflect-metadata": "^0.1.13",
