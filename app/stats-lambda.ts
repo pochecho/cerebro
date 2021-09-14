@@ -14,7 +14,7 @@ export function handler(dna: any, context, cb) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
       };
-      cb(null, data);
+      cb(null, response);
     },
     error: (error) => {
       const response = {
@@ -22,7 +22,7 @@ export function handler(dna: any, context, cb) {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(error),
       };
-      cb(null, error);
+      cb(null, response);
     },
   });
 }
