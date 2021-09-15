@@ -1,7 +1,9 @@
 AWSTemplateFormatVersion: "2010-09-09"
 
 Description: This template provides a ELB, autoscaling, ec2 and dynamoDB
-
+Parameters:
+  myLaunchTemplateVersionNumber:
+    Type: String
 Resources:
   IAMRole:
     Type: 'AWS::IAM::Role'
@@ -64,7 +66,107 @@ Resources:
       - IAMRole
 
 
-  # IsMutantLambdaFunction:
+  myLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties: 
+      LaunchTemplateData: 
+        CreditSpecification: 
+          CpuCredits: Unlimited
+        ImageId: ami-087c17d1fe0178315
+        InstanceType: t2.micro
+        UserData: IyEvYmluL2Jhc2gKeXVtIHVwZGF0ZSAteQpnaXQgY2xvbmUgaHR0cHM6Ly9naXRodWIuY29tL3BvY2hlY2hvL2NlcmVicm8uZ2l0CmNkIGNlcmVicm8KY2QgYXBwCm5wbSBpCm5wbSBydW4gYnVpbGQKY2QgLi4vZGlzdC93ZWJzZXJ2ZXIKbnBtIGkKbm9kZSBpbmRleC5qcw==
+  
+  myASG:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      MinSize: '2'
+      MaxSize: '5'
+      DesiredCapacity: '2'
+      LaunchTemplate:
+        LaunchTemplateId: !Ref myLaunchTemplate
+        Version: !Ref myLaunchTemplateVersionNumber
+      VPCZoneIdentifier: 
+        - subnet-741b7739
+        - subnet-a034e9c6
+
+  ApplicationLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: MyApplicationLoadBalancer
+      Subnets: 
+        - subnet-741b7739
+        - subnet-a034e9c6
+  ALBListener:
+    Type: 'AWS::ElasticLoadBalancingV2::Listener'
+    Properties:
+      DefaultActions:
+        - ForwardConfig:
+            TargetGroups: !Ref MyTargetGroup
+            # Host: '#{host}'
+            # Path: '/#{path}'
+            # Port: '443'
+            # Protocol: HTTPS
+            # StatusCode: HTTP_301
+          # Type: redirect
+      LoadBalancerArn: !Ref ApplicationLoadBalancer
+      Port: 80
+      Protocol: HTTP
+
+  MyTargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      HealthCheckEnabled: true
+      HealthCheckPath: '/'
+      HealthCheckPort: 80
+      HealthCheckProtocol: HTTP
+      Name: MyTargets
+      TargetType: instance 
+      Port: 80
+      Protocol: HTTP
+      VpcId: vpc-551df428
+      # Targets:
+      # - Id: !GetAtt [ MyLambdaFunction, Arn ]
+
+
+
+  # Balancer:
+  #   Type: AWS::ElasticLoadBalancing::LoadBalancer
+  #   Properties:
+  #     AvailabilityZones:
+  #     - "us-east-1"
+  #     Listeners:
+  #     - LoadBalancerPort: '80'
+  #       InstancePort: '80'
+  #       Protocol: HTTP
+  #     HealthCheck:
+  #       Target: HTTP:80/
+  #       HealthyThreshold: '3'
+  #       UnhealthyThreshold: '5'
+  #       Interval: '30'
+  #       Timeout: '5'
+  # AutoscalingLaunchConfiguration:
+  #   Type: AWS::AutoScaling::LaunchConfiguration
+  #   Properties:
+  #     ImageId: ami-087c17d1fe0178315
+  #     SecurityGroups:
+  #     - Ref: logicalName
+  #     - myExistingEC2SecurityGroup
+  #     InstanceType: t2.micro
+  
+  # myServerGroup:
+  #   Type: AWS::AutoScaling::AutoScalingGroup
+  #   Properties:
+  #     VPCZoneIdentifier:
+  #       - !Ref vpc-PublicSubnet1
+  #       - !Ref vpc-PublicSubnet2
+  #     LaunchConfigurationName: !Ref AutoscalingLaunchConfiguration
+  #     MinSize: '3'
+  #     MaxSize: '10'
+  #     HealthCheckGracePeriod: 300
+  #     MaxInstanceLifetime: 2592000
+  #     TargetGroupARNs:
+  #       - !Ref myTargetGroup
+  # # IsMutantLambdaFunction:
   #   Type: 'AWS::Lambda::Function'
   #   Properties:
   #     Code:

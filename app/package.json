@@ -7,6 +7,7 @@
     "test": "npx jest",
     "start": "nodemon index.ts",
     "start-lambda": "nodemon index-lambda.ts",
+    "build": "tsc  --project tsconfig.json && cd ../scripts && python copy-package.py",
     "build-is-mutant-lambda": "tsc  --project features/mutant/access/lambdas/tsconfig.json ",
     "build-stats-lambda": "tsc features/mutant/access/lambdas/stats-lambda.ts --project true",
     "build-lambdas": "tsc  --project tsconfig-lambdas.json && cd ../scripts && py copy-assets-to-lambdas.py",

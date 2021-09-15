@@ -6,25 +6,20 @@ Resources:
   LambdaBucketPolicy:
     Type: AWS::S3::BucketPolicy
     Properties: 
-      Bucket: 
-        Ref: LambdasBucketS3
+      Bucket: !Ref LambdasBucketS3
       PolicyDocument:
-        Type: AWS::IAM::Policy
-        Properties: 
-          PolicyDocument:
-            Version: "2021-07-29"
-            Statement:
-              - Effect: Allow
-                Action:
-                  - 's3:GetObject'
-                  - 's3:Put*'
-                Resource: !Join
-                  - ''
-                  - - 'arn:aws:s3:::'
-                    - !Ref LambdasBucketS3
-                    - /*
-          Roles: 
-            - String
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - 's3:GetObject'
+              - 's3:Put*'
+            Resource: !Join
+              - ''
+              - - 'arn:aws:s3:::'
+                - !Ref LambdasBucketS3
+                - /*
+            Principal: '*'
     DependsOn:
       - LambdasBucketS3
 

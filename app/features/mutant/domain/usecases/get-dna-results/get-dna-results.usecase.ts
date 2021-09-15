@@ -9,7 +9,6 @@ import { MutantGateway } from "../../../repository/contracts/mutant.gateway";
 export class GetDNAResultsUsecase implements BaseUsecase<ConsolidatedResponse> {
   constructor(@Inject(MutantService) private mutantService: MutantGateway) {}
   call(): Observable<ConsolidatedResponse> {
-    console.log(this.mutantService);
     return this.mutantService.getDNAResults().pipe(
       map((item) => {
         const human = item.filter((i) => !i.isMutant);

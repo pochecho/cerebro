@@ -5,6 +5,8 @@ Más adelante se decidió disponibilizar la solución a través de api gateway y
 
 Nota: Algunos comandos necesitan python por debajo así que asegurate de tenerlo instalado (versión 3) y de instalar las dependecias necesarias para correr algunos scripts en local. Realiza lo siguiente:
 
+
+EL UNICO RECURSO DISPONIBLE EN EL MOMENTO ES LA TABLA EN DYNAMO DONDE SE ALMACENA LA INFORMACIÓN. HAY UN PROBLEMA CON MI CUENTA Y NO ME DEJÓ DESPLEGAR LA SOLUCIÓN NI EN EC2 NI POR LAMBDAS.
 1. cd scripts
 2. pip install -r packages
 
@@ -31,3 +33,9 @@ Nota: Estas credenciales están configuradas de manera estática dentro del cód
 1. correr el stack determinado por el yaml: bucket-s3.cloudformation.yaml
 2. correr el pipeline CI dentro del repo para actualizar el contenido de las lambda en el s3.
 3. Correr el stack determinado por el yaml: infra.cloudformation.yaml
+
+## Test
+cd app
+npm run test
+
+La carpeta de coverage está dentro del directorio de app. No se hicieron las pruebas del controller puesto que se iba a disponibilizar por medio de lambda.
